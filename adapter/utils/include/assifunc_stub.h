@@ -1,0 +1,4 @@
+#ifndef ASSIFUNC_STUB_H
+#define ASSIFUNC_STUB_H
+
+#endif  // ASSIFUNC_STUB_H

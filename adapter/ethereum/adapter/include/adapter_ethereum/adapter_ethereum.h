@@ -15,7 +15,7 @@
 
 #include "adapter_interface/adapter_interface.h"
 #include "config_ethereum.h"
-#include "utils/include/trustdble_utils/json.hpp"
+#include "storage/blockchainDB/adapter/utils/src/json.hpp"
 
 // interval in ms to check if block is mined
 #define MINING_CHECK_INTERVAL 200

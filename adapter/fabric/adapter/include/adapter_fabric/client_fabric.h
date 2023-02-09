@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "adapter_interface/adapter_interface.h"
-#include "utils/include/trustdble_utils/json.hpp"
+#include "storage/blockchainDB/adapter/utils/src/json.hpp"
 
 /**
  * @brief Client to communicate with TrustDBle smart contract on Hyperledger

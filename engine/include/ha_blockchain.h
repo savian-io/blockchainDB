@@ -50,7 +50,7 @@
 #include "transaction.h"
 #include "thr_lock.h" /* THR_LOCK, THR_LOCK_DATA */
 
-#include "utils/include/trustdble_utils/json.hpp"
+#include "storage/blockchainDB/adapter/utils/src/json.hpp"
 
 using namespace trustdble;
 static const size_t MAX_BC_KEY_SIZE = 32;

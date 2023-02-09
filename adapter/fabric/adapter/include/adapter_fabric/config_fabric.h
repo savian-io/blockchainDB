@@ -2,8 +2,8 @@
 #define CONFIG_FABRIC_H
 
 #include "adapter_interface/adapter_config.h"
-#include "utils/include/trustdble_utils/json.hpp"
-#include "utils/include/trustdble_utils/general_helpers.h"
+#include "storage/blockchainDB/adapter/utils/src/json.hpp"
+#include "storage/blockchainDB/adapter/utils/include/general_helpers.h"
 
 /**
  * @brief Define specific configuration values for the Fabric adapter

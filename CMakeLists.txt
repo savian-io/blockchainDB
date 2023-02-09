@@ -16,11 +16,6 @@ ENDFOREACH()
 # add subdir with blockchain-adapter
 add_subdirectory(adapter)
 
-# Make an automatic library - will be static or dynamic based on user setting
-add_library(trustdbleCryptoService engine/src/crypt_service.cc)
-## to_uodate
-target_link_libraries(trustdbleCryptoService PUBLIC TrustDBle::trustdbleUtils TrustDBle::adapterFactory)
-
 SET(BLOCKCHAIN_PLUGIN_DYNAMIC "ha_blockchain")
 SET(BLOCKCHAIN_SOURCES
   engine/src/ha_blockchain.cc
@@ -31,23 +26,6 @@ ADD_DEFINITIONS(-DMYSQL_SERVER)
 
 # C++ 17
 set(CMAKE_CXX_STANDARD 17)
-
-# Determine correct branch of dependencies based on our active branch
-find_package (Git)
-if (GIT_FOUND)
-      message("git found: ${GIT_EXECUTABLE} in version ${GIT_VERSION_STRING}")
-endif (GIT_FOUND)
-
-# Determine our current branch
-execute_process(
-    COMMAND ${GIT_EXECUTABLE} branch --show-current 
-    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-    RESULT_VARIABLE RESULT
-    OUTPUT_VARIABLE CURRENT_BRANCH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-message("GIT: We are on the following branch at the moment ${CURRENT_BRANCH}")
 
 # Blockchain storage engine includes
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/engine/include)

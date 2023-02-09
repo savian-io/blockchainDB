@@ -37,13 +37,4 @@ MYSQL_ADD_EXECUTABLE(stub-t
     ADD_TEST stub-t
 )
 
-MYSQL_ADD_EXECUTABLE(crypt_service-t
-    crypt_service-t.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/crypt_service-t.cc
-    ADD_TEST crypt_service-t
-)
-
-SET_TARGET_PROPERTIES(crypt_service-t PROPERTIES ENABLE_EXPORTS TRUE)
-TARGET_LINK_LIBRARIES(crypt_service-t gtest gmock gtest_main)
-TARGET_LINK_LIBRARIES(crypt_service-t trustdbleCryptoService)
 ##########################################################

@@ -5,6 +5,16 @@ The current code base is build on top of Oracle MySQL and introduces a special s
 
 More detailed architectural information can be found in the documentation.
 
+## Getting Started
+
+clone mysql
+clone blockchain DB
+run init
+run build
+
+22.04
+20.04
+
 ## Project Structure
 
 ```

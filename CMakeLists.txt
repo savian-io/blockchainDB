@@ -14,17 +14,18 @@ FOREACH(warning
 ENDFOREACH()
 
 # add subdir with blockchain-adapter
-add_subdirectory(blockchain-adapter)
+add_subdirectory(adapter)
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(trustdbleCryptoService src/crypt_service.cc)
+add_library(trustdbleCryptoService engine/src/crypt_service.cc)
+## to_uodate
 target_link_libraries(trustdbleCryptoService PUBLIC TrustDBle::trustdbleUtils TrustDBle::adapterFactory)
 
 SET(BLOCKCHAIN_PLUGIN_DYNAMIC "ha_blockchain")
 SET(BLOCKCHAIN_SOURCES
-  src/ha_blockchain.cc
-  src/table_service.cc
-  src/transaction.cc
+  engine/src/ha_blockchain.cc
+  engine/src/table_service.cc
+  engine/src/transaction.cc
 )
 ADD_DEFINITIONS(-DMYSQL_SERVER)
 
@@ -49,7 +50,7 @@ execute_process(
 message("GIT: We are on the following branch at the moment ${CURRENT_BRANCH}")
 
 # Blockchain storage engine includes
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/engine/include)
 INCLUDE_DIRECTORIES(SYSTEM ${BOOST_PATCHES_DIR} ${BOOST_INCLUDE_DIR})
 
 IF(WITH_BLOCKCHAIN_STORAGE_ENGINE AND NOT WITHOUT_BLOCKCHAIN_STORAGE_ENGINE)

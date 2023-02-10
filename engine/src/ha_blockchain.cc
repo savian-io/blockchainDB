@@ -27,7 +27,7 @@
   The ha_blockchain engine is a stubbed storage engine for blockchain purposes
   only; it does nothing at this point. Its purpose is to provide a source code
   illustration of how to begin writing new storage engines; see also
-  /storage/blockchain/ha_blockchain.h.
+  storage/blockchainDB/engine/include/ha_blockchain.h.
 
   @details
   ha_blockchain will let you create/open/delete tables, but
@@ -92,9 +92,9 @@
     -Brian
 */
 
-#include "blockchain/ha_blockchain.h"
-#include "trustdble_utils/encoding_helpers.h"
-#include "trustdble_utils/general_helpers.h"
+#include "storage/blockchainDB/engine/include/ha_blockchain.h"
+#include "storage/blockchainDB/adapter/utils/include/adapter_utils/encoding_helpers.h"
+#include "storage/blockchainDB/adapter/utils/include/general_helpers.h"
 
 #include <sql/sql_thd_internal_api.h>
 #include <sql/table.h>
@@ -110,7 +110,7 @@
 #include <regex>
 #include <set>
 #include <unordered_map>
-#include "blockchain/crypt_service.h"
+//#include "blockchain/crypt_service.h"
 #include "my_sys.h"
 #include "mysql/components/services/log_builtins.h"
 #include "mysql/plugin.h"

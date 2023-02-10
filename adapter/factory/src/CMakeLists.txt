@@ -16,7 +16,6 @@ add_library(TrustDBle::adapterFactory ALIAS adapterFactory)
 target_include_directories(adapterFactory PUBLIC ../include)
 
 # This depends on (header only) boost
-target_link_libraries(adapterFactory PUBLIC TrustDBle::adapterFabric)
 target_link_libraries(adapterFactory PUBLIC TrustDBle::adapterEthereum)
 
 # All users of this library will need at least C++17

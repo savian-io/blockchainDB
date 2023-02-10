@@ -17,7 +17,6 @@ include(FetchContent)
 include(trustdble_configure)
 
 add_subdirectory(interface)
-add_subdirectory(fabric/adapter)
 add_subdirectory(ethereum/adapter)
 add_subdirectory(factory)
 add_subdirectory(utils)

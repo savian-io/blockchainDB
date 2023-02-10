@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "adapter_ethereum/adapter_ethereum.h"
-#include "adapter_fabric/adapter_fabric.h"
 
 /**
  * Type of blockchain adapter

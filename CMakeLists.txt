@@ -37,7 +37,7 @@ ELSEIF(NOT WITHOUT_BLOCKCHAIN_STORAGE_ENGINE)
   MYSQL_ADD_PLUGIN(blockchain ${BLOCKCHAIN_SOURCES}
    STORAGE_ENGINE
    MODULE_ONLY
-   LINK_LIBRARIES TrustDBle::adapterFactory trustdbleCryptoService
+   LINK_LIBRARIES TrustDBle::adapterFactory
    )
 ENDIF()
 

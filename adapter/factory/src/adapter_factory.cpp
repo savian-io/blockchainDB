@@ -9,9 +9,6 @@ auto AdapterFactory::create_adapter(BC_TYPE type)
     case kEthereum:
       adapter = std::make_unique<EthereumAdapter>();
       break;
-    case kFabric:
-      adapter = std::make_unique<FabricAdapter>();
-      break;
     default:
       break;
   }

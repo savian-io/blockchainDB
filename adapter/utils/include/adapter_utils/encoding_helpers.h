@@ -3,12 +3,30 @@
 
 #include <iomanip>
 #include <iostream>
+#include <string>
+
+
+static const size_t HASH_SIZE = 32;
 
 #define ENCODED_BYTE_SIZE 16
 
 // keys and values of smart contrat are 32 byte and represented as hex
 // strings with 64 chars. Each byte as 2 chars
 #define VALUE_SIZE 64
+
+
+/**
+ * @brief Generates the SHA256 hash of the provided data.
+ *
+ * @param message The data whose hash will be generated
+ * @param message_len The length of the data
+ * @param hash A pointer to the generated hash
+ * @param hash_len The length of the generated hash
+ * @return status code (0 success, 1 failure)
+ */
+auto hash_sha256(const unsigned char *data, size_t data_len,
+                 unsigned char *hash, unsigned int *hash_len) -> int;
+
 
 /**
  * @brief Helper-Method to convert an integer into its hex-representation as

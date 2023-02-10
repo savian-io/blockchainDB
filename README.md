@@ -15,6 +15,65 @@ run build
 22.04
 20.04
 
+## Getting Started
+
+1. Clone BlockchainDB into storage
+
+install BOOST (script)
+
+build
+cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl" -DDOWNLOAD_BOOST=1 -DWITH_BOOST=~/boost
+
+build
+cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja
+
+cmake --build build-debug --parallel
+
+
+2. Clone mySQL 
+
+
+sudo apt-get -y install build-essential cmake ninja-build curl
+sudo apt-get -y install libssl-dev libncurses5-dev pkg-config bison libtirpc-dev libudev-dev libldap-dev libsasl2-dev libsasl2-modules-gssapi-mit libcurl4-openssl-dev
+
+1. Clone this repository
+
+init
+clone MySQL lat commit
+clone blockchain DB
+run init
+run build
+
+cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja -DENABLE_DOWNLOADS=1 -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl"
+
+cmake --build build-debug --parallel
+
+22.04
+20.04
+
+## Build mysql-server and blockchain storage engine
+
+2. Install the requirements using the `trustdble` helper script (currently, we only support linux as dev environment):
+```
+sudo apt-get -y install build-essential cmake ninja-build curl libssl-dev libncurses5-dev pkg-config bison libtirpc-dev libudev-dev libldap-dev libsasl2-dev libsasl2-modules-gssapi-mit libcurl4-openssl-dev
+```
+
+1. Change to the main src directory
+```
+cd src
+```
+2. Install the requirements using the `trustdble` helper script (currently, we only support linux as dev environment):
+```
+./trustdble init -s linux
+```
+3. Build the repo with the help of the helper script. NOTE: This might take very long!
+```
+./trustdble build
+```
+4. Use the `trustdble` helper script to start a server/client.
+
+
+
 ## Project Structure
 
 ```

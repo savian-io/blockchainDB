@@ -46,7 +46,6 @@
 #include "my_compiler.h"
 #include "my_inttypes.h"
 #include "sql/handler.h" /* handler */
-#include "table_service.h"
 #include "transaction.h"
 #include "thr_lock.h" /* THR_LOCK, THR_LOCK_DATA */
 

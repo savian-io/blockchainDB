@@ -19,7 +19,6 @@ add_subdirectory(adapter)
 SET(BLOCKCHAIN_PLUGIN_DYNAMIC "ha_blockchain")
 SET(BLOCKCHAIN_SOURCES
   engine/src/ha_blockchain.cc
-  engine/src/table_service.cc
   engine/src/transaction.cc
 )
 ADD_DEFINITIONS(-DMYSQL_SERVER)

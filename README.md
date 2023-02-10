@@ -1,78 +1,7 @@
 # BlockchainDB
 BlockchainDB is a novel trusted database management system. It combines Blockchain and Database technology to provide trustworthy and auditable data management.
 
-The current code base is build on top of Oracle MySQL and introduces a special storage engine (Blockchain Storage Engine) that allows to store data in a blockchain. This storage engine can be used to store tables on different blockchains. Therefore an adapter interface has to be implemented for each Blockchain-Technology. Currently there is an Ethereum adapter, and a Fabric adapter, which allows to store data inside Ethereum or Fabric blockchain network.
-
-More detailed architectural information can be found in the documentation.
-
-## Getting Started
-
-clone mysql
-clone blockchain DB
-run init
-run build
-
-22.04
-20.04
-
-## Getting Started
-
-1. Clone BlockchainDB into storage
-
-install BOOST (script)
-
-build
-cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl" -DDOWNLOAD_BOOST=1 -DWITH_BOOST=~/boost
-
-build
-cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja
-
-cmake --build build-debug --parallel
-
-
-2. Clone mySQL 
-
-
-sudo apt-get -y install build-essential cmake ninja-build curl
-sudo apt-get -y install libssl-dev libncurses5-dev pkg-config bison libtirpc-dev libudev-dev libldap-dev libsasl2-dev libsasl2-modules-gssapi-mit libcurl4-openssl-dev
-
-1. Clone this repository
-
-init
-clone MySQL lat commit
-clone blockchain DB
-run init
-run build
-
-cmake -S . -B build-debug -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=debug -GNinja -DENABLE_DOWNLOADS=1 -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl"
-
-cmake --build build-debug --parallel
-
-22.04
-20.04
-
-## Build mysql-server and blockchain storage engine
-
-2. Install the requirements using the `trustdble` helper script (currently, we only support linux as dev environment):
-```
-sudo apt-get -y install build-essential cmake ninja-build curl libssl-dev libncurses5-dev pkg-config bison libtirpc-dev libudev-dev libldap-dev libsasl2-dev libsasl2-modules-gssapi-mit libcurl4-openssl-dev
-```
-
-1. Change to the main src directory
-```
-cd src
-```
-2. Install the requirements using the `trustdble` helper script (currently, we only support linux as dev environment):
-```
-./trustdble init -s linux
-```
-3. Build the repo with the help of the helper script. NOTE: This might take very long!
-```
-./trustdble build
-```
-4. Use the `trustdble` helper script to start a server/client.
-
-
+The current code base is build on top of Oracle MySQL and introduces a special storage engine (BlockchainDB Storage Engine) that allows to store data in a blockchain. This storage engine can be used to store tables on different blockchains. Therefore an adapter interface has to be implemented for each Blockchain-Technology.
 
 ## Project Structure
 
@@ -111,25 +40,10 @@ Example for Ethereum:
 
 ## Blockchain Adapters
 
-The adapter interface defines how BlockchainDB interacts with a blockchain to store/retrieve data.
-
-### Adapter Implementations
-
-Currently there exists an implementation for the following blockchains
+The adapter interface defines how BlockchainDB interacts with a blockchain to store/retrieve data. Currently there exists an implementation for the following blockchains:
 
 -   [Ethereum](ethereum) - Adapter implementation for the [Ethereum](https://ethereum.org/) blockchain
 
-### Blockchain Adapter for Ethereum
-
-#### Dependencies
-- npm
-- node
-- truffle (npm install -g truffle)
-- curl
-
-## Contribution guidelines
-* Please write clean and self explanatory code. Document your code where required.
-* Please adhere to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) when writing new code.
 
 ## Getting Started
 Download the shared libaray file and plug it into your running MySQL-Server instance by using the following command:
@@ -148,11 +62,11 @@ If you want to build the shared library from source you have include our storage
 
 2. Install all dependencies for building mysql-server
 
-        sudo apt-get ...
+        sudo apt-get -y install build-essential cmake ninja-build curl libssl-dev libncurses5-dev pkg-config bison libtirpc-dev libudev-dev libldap-dev libsasl2-dev libsasl2-modules-gssapi-mit libcurl4-openssl-dev
 
 3. Build mysql-server ( This may take a while)
 
-        cmake -S . -B build ...
+        cmake -S . -B build -GNinja -DDOWNLOAD_BOOST=1 -DWITH_BOOST=$HOME/my_boost -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl"
         cmake --build build --parallel
 
 4. Go to storage folder and clone blockchainDB repository
@@ -170,3 +84,6 @@ If you want to build the shared library from source you have include our storage
         cmake -S . -B build ...
         cmake --build build --parallel
 
+## Contribution guidelines
+* Please write clean and self explanatory code. Document your code where required.
+* Please adhere to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) when writing new code.

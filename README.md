@@ -42,7 +42,7 @@ Example for Ethereum:
 
 The adapter interface defines how BlockchainDB interacts with a blockchain to store/retrieve data. Currently there exists an implementation for the following blockchains:
 
--   [Ethereum](ethereum) - Adapter implementation for the [Ethereum](https://ethereum.org/) blockchain
+-   Ethereum - Adapter implementation for the [Ethereum](https://ethereum.org/) blockchain
 
 
 ## Getting Started

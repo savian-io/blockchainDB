@@ -19,7 +19,6 @@ add_subdirectory(adapter)
 SET(BLOCKCHAIN_PLUGIN_DYNAMIC "ha_blockchain")
 SET(BLOCKCHAIN_SOURCES
   engine/src/ha_blockchain.cc
-  engine/src/table_service.cc
   engine/src/transaction.cc
 )
 ADD_DEFINITIONS(-DMYSQL_SERVER)
@@ -37,14 +36,14 @@ ELSEIF(NOT WITHOUT_BLOCKCHAIN_STORAGE_ENGINE)
   MYSQL_ADD_PLUGIN(blockchain ${BLOCKCHAIN_SOURCES}
    STORAGE_ENGINE
    MODULE_ONLY
-   LINK_LIBRARIES TrustDBle::adapterFactory
+   LINK_LIBRARIES BlockchainDB::adapterFactory
    )
 ENDIF()
 
 # Testing
-OPTION(WITH_TRUSTDBLE_TESTS
-  "Include the TRUSTDBLE test programs" OFF)
-IF(WITH_TRUSTDBLE_TESTS)
+OPTION(WITH_BLOCKCHAIN_DB_TESTS
+  "Include the BlockchainDB test programs" OFF)
+IF(WITH_BLOCKCHAIN_DB_TESTS)
   add_subdirectory(tests)
 ELSE()
 ENDIF()

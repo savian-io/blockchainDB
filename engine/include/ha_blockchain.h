@@ -46,13 +46,12 @@
 #include "my_compiler.h"
 #include "my_inttypes.h"
 #include "sql/handler.h" /* handler */
-#include "table_service.h"
 #include "transaction.h"
 #include "thr_lock.h" /* THR_LOCK, THR_LOCK_DATA */
 
 #include "storage/blockchainDB/adapter/utils/src/json.hpp"
 
-using namespace trustdble;
+using namespace blockchain_db;
 static const size_t MAX_BC_KEY_SIZE = 32;
 
 /**

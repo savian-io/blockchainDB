@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.16...3.20)
 
 # Project name and a few useful settings. Other commands can pick up the results
 project(
-  TrustdbleAdapters
+  BlockchainDBAdapters
   VERSION 0.1
-  DESCRIPTION "TrustDBle Adapters project"
+  DESCRIPTION " BlockchainDB Adapters project"
   LANGUAGES CXX)
 
 # Required for compilation under MacOS
@@ -14,7 +14,7 @@ set (CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 include(FetchContent)
-include(trustdble_configure)
+include(blockchain_db_configure)
 
 add_subdirectory(interface)
 add_subdirectory(ethereum/adapter)
@@ -43,7 +43,7 @@ endif()
 
 # Testing only available if this is the main app
 # Emergency override MyProjectName_BUILD_TESTING provided as well
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR TrustDBleAdapters_BUILD_TESTING)
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR  BlockchainDBAdapters_BUILD_TESTING)
    AND BUILD_TESTING)
   include(GoogleTest)
   add_subdirectory(fabric/adapter/tests)

@@ -1,6 +1,6 @@
 #include "storage/blockchainDB/engine/include/transaction.h"
 
-using namespace trustdble;
+using namespace blockchain_db;
 
 auto Transaction::init() -> int{
     return 0;

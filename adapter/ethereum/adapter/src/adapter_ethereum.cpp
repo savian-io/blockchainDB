@@ -9,15 +9,15 @@
  * ---- Ethereum IMPLEMENTATION ----------------------------------
  */
 
-// The hash of the put method signature of trustdble ethereum contract
+// The hash of the put method signature of BlockchainDB ethereum contract
 constexpr static auto kEthereumMethodHashPut = "0xdb82ecc3";
-// The hash of the get method signature of trustdble ethereum contract
+// The hash of the get method signature of BlockchainDB ethereum contract
 constexpr static auto kEthereumMethodHashGet = "0x8eaa6ac0";
-// The hash of the get_all method signature of trustdble ethereum contract
+// The hash of the get_all method signature of BlockchainDB ethereum contract
 constexpr static auto kEthereumMethodHashGetall = "0xb3055e26";
-// The hash of the remove method signature of trustdble ethereum contract
+// The hash of the remove method signature of BlockchainDB ethereum contract
 constexpr static auto kEthereumMethodHashRemove = "0x95bc2673";
-// The hash of the putBatch method signature of trustdble ethereum contract
+// The hash of the putBatch method signature of BlockchainDB ethereum contract
 constexpr static auto kEthereumMethodHashPutBatch = "0x410f08ab";
 // The default gas value of 7000000 for transaction in hex
 constexpr static auto kEthereumGas = "0x6ACFC0";
@@ -85,7 +85,7 @@ auto EthereumAdapter::check_connection() -> bool {
   BOOST_LOG_TRIVIAL(debug)
       << "EthereumAdapter: check_connection | connection-url = "
       << connection_url;
-  
+
   // check bc-network availability
   std::string cmd_to_execute = "curl --data '{\"method\":\"eth_blockNumber\","
       "\"params\":[],\"id\":1,\"jsonrpc\":\"2.0\"}'"
@@ -98,7 +98,7 @@ auto EthereumAdapter::check_connection() -> bool {
   bool check_connection_successful;
   std::string exec_output = exec(cmd_to_execute.c_str(),
                                  &check_connection_successful);
-  
+
   if (!check_connection_successful) {
     BOOST_LOG_TRIVIAL(debug)
         << "EthereumAdapter: check_connection | bc-network in NOT available";
@@ -227,7 +227,7 @@ auto EthereumAdapter::put(std::map<const BYTES, const BYTES> &batch) -> int {
   return 0;
 }
 
-auto EthereumAdapter::get(const BYTES &key, BYTES &result) -> int { 
+auto EthereumAdapter::get(const BYTES &key, BYTES &result) -> int {
   std::string padded_key =
       convert_to_32byte(byte_array_to_hex(key.value, key.size));
 
@@ -428,7 +428,7 @@ auto EthereumAdapter::verify_connection_string(const std::string &connection_str
                                 "connection_string is an empty string";
     return false;
   }
-  
+
   auto connection_string_json = nlohmann::json::parse(connection_string);
   // check if join-ip in connection string
   if (!connection_string_json.contains("join-ip")) {

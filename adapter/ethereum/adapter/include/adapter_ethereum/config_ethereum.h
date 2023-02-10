@@ -5,7 +5,6 @@
 
 #include "adapter_interface/adapter_config.h"
 //src/storage/blockchain/blockchain-adapter/interface/include/adapter_interface/adapter_interface.h
-//#include "trustdble_utils/general_helpers.h"
 #include "storage/blockchainDB/adapter/utils/src/json.hpp"
 #include "storage/blockchainDB/adapter/utils/include/general_helpers.h"
 

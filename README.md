@@ -29,10 +29,10 @@ run build
 │   |   └── scripts     # Scripts to orchestrate the contract assets and prepare the blockchain for an interaction with the blockchain
 │   ├── factory         # C++ Factory module that helps to create the different types of adapters
 │   ├── interface       # C++ Definition of the generic adapter interface, contains also generic tests that should work for all
-│   ├── utils
-│   ├── .clang-format
-│   ├── .clang-tidy
+│   └── utils           # Contains utility and helper methods
 ├── engine              # This storage engine can be used to store tables on different blockchains.
+|   ├── include         # Contains header files of the blockchain storage engine
+|   └── src             # Contains source files of the blockchain storage engine
 ├── tests
 ├── .gitignore          # Top-level gitignore
 └── README.md           # The file you are looking at currently
@@ -40,31 +40,24 @@ run build
 
 ## Blockchain Table
 
-CREATE BLOCKCHAIN TABLE is used to create a bc-table (blockchain table) which stores data in a blockchain. The used blockchain is determined by the CONNECTION information, parameter bc_type. A sharable table enables other TRUSTDBLE users to load it and interact with it by reading and writing data. Before creating bc-table, blockchain network should be started, and CONNECTION information to that blockchain network is a nessesary parameter to the CREATE statement.
+CREATE BLOCKCHAIN TABLE is used to create a bc-table (blockchain table) which stores data in a blockchain. The used blockchain is determined by the CONNECTION information, parameter bc_type. Before creating bc-table, a blockchain network should be started, and CONNECTION information to that blockchain network is a nessesary parameter to the CREATE statement.
 
-```
-    Name: 'CREATE BLOCKCHAIN TABLE'
-    Description:
-    Syntax:
+Syntax:
 
-        CREATE TABLE <table_name> (<table_schema>) ENGINE=BLOCKCHAIN CONNECTION=<connection_string>;
+    CREATE TABLE <table_name> (<table_schema>) ENGINE=BLOCKCHAIN CONNECTION=<connection_string>;
 
-    Ethereum-Example:
+Example for Ethereum:
+
     CREATE TABLE bc_tbl_ETH (id int, value int) ENGINE=BLOCKCHAIN CONNECTION='{"bc_type":"ETHEREUM","join-ip":"172.17.0.1","rpc-port":"8000"}';
-
-    FABRIC-Example:
-    CREATE TABLE bc_tbl_FAB (id int, value int) ENGINE=BLOCKCHAIN CONNECTION='{"bc_type":"FABRIC","cert_path":"/home/amerdeev/dev/bc_fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/cert.pem","channel_name":"test-network-caf09b23-8fe3-43f4-acd1-9e9859e5ec59","gateway_peer":"test_network","key_path":"/home/amerdeev/dev/bc_fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/","msp_id":"Org1MSP","peer_endpoint":"localhost:7056","peer_operations_port":"9446","peer_port":"7056","test_network_path":"/home/amerdeev/dev/bc_fabric/fabric-samples/test-network","tls_cert_path":"/home/amerdeev/dev/bc_fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/test_network/tls/ca.crt"}';
-```
 
 ## Blockchain Adapters
 
-The adapter interface defines how a TrustDBle can interact with a blockchain to store/retrieve data. There are currently implementations of this interface for Hyperledger Fabric and Ethereum blockchain.
+The adapter interface defines how BlockchainDB interacts with a blockchain to store/retrieve data.
 
 ### Adapter Implementations
 
 Currently there exists an implementation for the following blockchains
 
--   [Fabric](fabric) - Adapter implementation for the [Hyperledger Fabric](https://www.hyperledger.org/use/fabric) blockchain
 -   [Ethereum](ethereum) - Adapter implementation for the [Ethereum](https://ethereum.org/) blockchain
 
 ### Blockchain Adapter for Ethereum
@@ -75,68 +68,46 @@ Currently there exists an implementation for the following blockchains
 - truffle (npm install -g truffle)
 - curl
 
-#### Getting Started
-0. Search and replace, ie. adjust, all paths beginning with `/home/simon/Projects/dm`
-1. Install truffle `sudo npm install -g truffle)
-2. Compile the Ethereum smart contract `cd contract/truffle && truffle compile`
-
-### Blockchain Adapter for Hyperledger Fabric
-
-#### Requirements
-The following additional software is required to run a Hyperledger Fabric blockchain and use this TrustDBle adapter implementation to interact with it
-- Docker
-- Docker-Compose
-- Java
-
 ## Contribution guidelines
 * Please write clean and self explanatory code. Document your code where required.
 * Please adhere to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) when writing new code.
 
-## Requirements
-We inherit most of the requirements and dependencies from the mysql repo see https://dev.mysql.com/doc/refman/8.0/en/source-installation-prerequisites.html.
-All requirements can be installed by using the `init` command of the `trustdble` helper script (see step 1) in [Getting Started](#Getting%20Started)).
-
-General requirements
-- C++ std-17
-- CMake build system
-
-Specific requirements
-- We use the git [subrepo](https://github.com/ingydotnet/git-subrepo) command to manage the original mysql code as a repository
-- We use [docker](https://docs.docker.com/engine/install/ubuntu/) to package our code as a container. **Note: Make sure to perform the docker post-installation steps for Managing Docker as a non-root user!**
-
 ## Getting Started
+Download the shared libaray file and plug it into your running MySQL-Server instance by using the following command:
 
-1. Clone this repository
-2. Install [boost version 1.73.0](https://www.boost.org/users/history/version_1_73_0.html) on your system.
+    INSTALL PLUGIN blockchainDB SONAME 'blockchain_db.so';
 
-### Build mysql-server and blockchain storage engine
+More details how to install plugins into MySQL-Server can be found [here](https://dev.mysql.com/doc/refman/8.0/en/plugin-loading.html#server-plugin-installing-install-plugin).
 
-1. Change to the main src directory
-```
-cd src
-```
-2. Install the requirements using the `trustdble` helper script (currently, we only support linux as dev environment):
-```
-./trustdble init -s linux
-```
-3. Build the repo with the help of the helper script. NOTE: This might take very long!
-```
-./trustdble build
-```
-4. Use the `trustdble` helper script to start a server/client.
 
-### Get Help
+## Build mysql-server and blockchainDB storage engine
+If you want to build the shared library from source you have include our storage engine in to storage folder of the mysql-server source.
 
-The script `trustdble` contains two predefined commands.
+1. Clone mysql-server repository without whole commit history
 
-* **help** shows a general help message
-* **list** lists all available script commands included in `trustdble_scripts`
+        git clone https://github.com/mysql/mysql-server.git --depth 1
 
-Every script command of `trustdble` has an own help message, which can be accessed by using the `-h` or `--help` flag.
-For example to get help for starting a server, you can run
+2. Install all dependencies for building mysql-server
 
-    ./trustdble start server --help
+        sudo apt-get ...
 
-### How to add a Command
+3. Build mysql-server ( This may take a while)
 
-To add a new command script to the `trustdble` script, follow the instructions stated [here](trustdble_scripts/README.md)
+        cmake -S . -B build ...
+        cmake --build build --parallel
+
+4. Go to storage folder and clone blockchainDB repository
+
+        cd storage
+        git clone https://github.com/savian-io/blockchainDB
+
+5. Install dependencies for building blockchainDB storage engine
+
+        sudo apt-get ...
+
+6. Back to the root directory of mysql-server and build it again
+
+        cd ..
+        cmake -S . -B build ...
+        cmake --build build --parallel
+

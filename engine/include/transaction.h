@@ -1,5 +1,5 @@
-#ifndef TRUSTDBLE_TRANSACTION
-#define TRUSTDBLE_TRANSACTION
+#ifndef BLOCKCHAIN_DB_TRANSACTION
+#define BLOCKCHAIN_DB_TRANSACTION
 
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 #include "adapter_factory/adapter_factory.h"
 using namespace std;
 
-namespace trustdble {
+namespace blockchain_db {
 
 /**
  * @brief Enum to distinguish between different statements
@@ -77,6 +77,6 @@ class Transaction {
     ulong lock_count=0;
 };
 
-} // namespace trustdble
+} // namespace blockchain_db
 
-#endif // TRUSTDBLE_TRANSACTION
+#endif // BLOCKCHAIN_DB_TRANSACTION

@@ -1,4 +1,4 @@
-set(HEADER_LIST 
+set(HEADER_LIST
   "${CMAKE_CURRENT_SOURCE_DIR}/../include/adapter_utils/encoding_helpers.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/../include/adapter_utils/shell_helpers.h"
   )
@@ -6,7 +6,7 @@ set(HEADER_LIST
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(adapterUtils encoding_helpers.cpp shell_helpers.cpp ${HEADER_LIST})
 # Add an alias so that library can be used inside the build tree, e.g. when testing
-add_library(TrustDBle::adapterUtils ALIAS adapterUtils)
+add_library(BlockchainDB::adapterUtils ALIAS adapterUtils)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(adapterUtils PUBLIC ../include)

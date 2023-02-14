@@ -142,7 +142,13 @@ static std::unordered_map<std::string, std::unique_ptr<BcAdapter>>
 #define LOG_TAG "blockchain"
 
 // System variables for configuration
-static char *config_configuration_path;
+  std::string s = "/home/amerdeev/dev/mysql-server/storage/blockchainDB/adapter/ethereum/adapter/config.ini";
+  static char* config_configuration_path = s.data();
+
+//char config_configuration_path[] = "something";
+//char data[] = "Testing String";
+//const char* data = "Testing String";
+//char* data = (char*) "Testing String";
 
 /* Interface to mysqld, to check system tables supported by SE */
 static bool blockchain_is_supported_system_table(
@@ -251,10 +257,11 @@ std::string get_path_to_file_with_table_metadata(
   // similar to configuration path
   path_to_dir.append(config_configuration_path);
   // cut tail
-  const std::string tail_to_cut = "/configs/configuration.ini";
+  const std::string tail_to_cut = "/storage/blockchainDB/adapter/ethereum/adapter/config.ini";
   boost::replace_all(path_to_dir, tail_to_cut, "");
+  // add path to datadir
+  path_to_dir.append("/build-debug/data/");
   // add database name
-  path_to_dir.append("data/");
   path_to_dir.append(db_name);
   path_to_dir.append("/");
 

@@ -110,11 +110,12 @@
 #include <regex>
 #include <set>
 #include <unordered_map>
-//#include "blockchain/crypt_service.h"
+
 #include "my_sys.h"
 #include "mysql/components/services/log_builtins.h"
 #include "mysql/plugin.h"
 #include "sql/field.h"
+#include "sql/mysqld.h" /* use mysql_real_data_home var (path to mysql data dir) */
 #include "sql/sql_base.h"
 #include "sql/sql_class.h"
 #include "sql/sql_plugin.h"
@@ -142,13 +143,10 @@ static std::unordered_map<std::string, std::unique_ptr<BcAdapter>>
 #define LOG_TAG "blockchain"
 
 // System variables for configuration
-  std::string s = "/home/amerdeev/dev/mysql-server/storage/blockchainDB/adapter/ethereum/adapter/config.ini";
-  static char* config_configuration_path = s.data();
-
-//char config_configuration_path[] = "something";
-//char data[] = "Testing String";
-//const char* data = "Testing String";
-//char* data = (char*) "Testing String";
+static char *config_configuration_path;
+// path to mysql data dir
+const char *mysql_real_data_home_ptr = mysql_real_data_home;
+//~/mysql-server/build-debug/data/
 
 /* Interface to mysqld, to check system tables supported by SE */
 static bool blockchain_is_supported_system_table(
@@ -254,17 +252,11 @@ std::string get_path_to_file_with_table_metadata(
   
   // get path to dir with metadata
   std::string path_to_dir = "";
-  // similar to configuration path
-  path_to_dir.append(config_configuration_path);
-  // cut tail
-  const std::string tail_to_cut = "/storage/blockchainDB/adapter/ethereum/adapter/config.ini";
-  boost::replace_all(path_to_dir, tail_to_cut, "");
-  // add path to datadir
-  path_to_dir.append("/build-debug/data/");
+  // add path to mysql data dir
+  path_to_dir.append(mysql_real_data_home);
   // add database name
   path_to_dir.append(db_name);
   path_to_dir.append("/");
-
   // add table name
   /*In fact the SDI file is a compact JSON file.
     It’s name is formed by the table's name and the table’s id.*/
@@ -484,7 +476,10 @@ ha_blockchain::~ha_blockchain() {  // DBUG_PRINT(LOG_TAG, ("Destructor:"));
 int ha_blockchain::create(const char *name, TABLE *table_arg, HA_CREATE_INFO *,
                           dd::Table *) {
   DBUG_PRINT(LOG_TAG, ("ha_blockchain_method_call: create"));
-  DBUG_PRINT(LOG_TAG, ("create: new shared table with name= %s", name));
+  DBUG_PRINT(LOG_TAG, ("create: new shared table with name = %s", name));
+
+  // test print for mysql_real_data_home
+  DBUG_PRINT(LOG_TAG, ("create: mysql_real_data_home = %s", mysql_real_data_home));
 
   // get database name
   std::string db_name = std::string(name);
@@ -542,13 +537,9 @@ int ha_blockchain::create(const char *name, TABLE *table_arg, HA_CREATE_INFO *,
     if ( (bc_adapter = AdapterFactory::create_adapter(
               AdapterFactory::getBC_TYPE(bc_type)) ) != nullptr ) {
 
-      // config configuration path
-      DBUG_PRINT(LOG_TAG, ("create: config_configuration_path = %s",
-                           config_configuration_path));
-
       // initialize adapter
       DBUG_PRINT(LOG_TAG, ("create: initialize bc adapter"));
-      if (!bc_adapter->init(config_configuration_path,
+      if (!bc_adapter->init(mysql_real_data_home,
                             bc_table.connection_string)) {
         // initialize adapter failed
         DBUG_PRINT(LOG_TAG,("create: initialize bc adapter failed"));
@@ -709,7 +700,7 @@ int ha_blockchain::open(const char *full_table_name, int, uint,
 
     // initialize adapter
     DBUG_PRINT(LOG_TAG, ("open: initialize bc adapter"));
-    if (!bc_adapter->init(config_configuration_path, connection_string)) { 
+    if (!bc_adapter->init(mysql_real_data_home, connection_string)) { 
       // initialize adapter failed
       DBUG_PRINT(LOG_TAG,("open: initialize bc adapter failed"));
       return 1;
@@ -1640,15 +1631,15 @@ struct st_mysql_storage_engine blockchain_storage_engine = {
  * Config variables *
  *******************/
 
-static MYSQL_SYSVAR_STR(
+  static MYSQL_SYSVAR_STR(
     bc_configuration_path, config_configuration_path,
     PLUGIN_VAR_RQCMDARG | PLUGIN_VAR_READONLY,
     "Path to BlockchainManager and BlockchainAdapter configuration folder",
     nullptr, nullptr, nullptr);
 
-static SYS_VAR *blockchain_system_variables[] = {
-    MYSQL_SYSVAR(bc_configuration_path),
-    nullptr};  // config path for configurations
+  static SYS_VAR *blockchain_system_variables[] = {
+      MYSQL_SYSVAR(bc_configuration_path),
+      nullptr};  // config path for configurations
 
 // Plugin descriptor
 mysql_declare_plugin(blockchain){

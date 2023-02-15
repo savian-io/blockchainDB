@@ -1,6 +1,7 @@
 #include "adapter_ethereum/adapter_ethereum.h"
 
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "adapter_utils/encoding_helpers.h"
 #include "adapter_utils/shell_helpers.h"
@@ -44,17 +45,18 @@ auto EthereumAdapter::init(const std::string &config_path) -> bool {
   return init();
 }
 
-auto EthereumAdapter::init(const std::string &config_path,
+auto EthereumAdapter::init(const std::string &mysql_data_dir,
                            const std::string &connection_string) -> bool {
   // verify configuration path
-  if (!verify_config_path(config_path)) {
+  if (!verify_config_path(mysql_data_dir)) {
     BOOST_LOG_TRIVIAL(debug)
         << "EthereumAdapter: init | "
            "initialization stopped, fail to verify configuration path";
     return false;
   }
   // init adapter with config_path
-  config_.init_path(config_path);
+  //config_.init_path(config_path);
+  auto set_adapter_config(const std::string& mysql_data_dir);
 
   // verify connection string
   if (!verify_connection_string(connection_string)) {

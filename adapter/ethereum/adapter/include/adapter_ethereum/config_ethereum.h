@@ -1,6 +1,8 @@
 #ifndef CONFIG_ETHEREUM_H
 #define CONFIG_ETHEREUM_H
 
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
 #include "adapter_interface/adapter_config.h"
@@ -21,6 +23,49 @@ class EthereumConfig : public AdapterConfig {
    * @return true if parsing was successful otherwise false
    */
   auto init_path(const std::string& path) -> bool { return read(path); }
+
+    /**
+   * @brief Initialize adapter configuration
+   *
+   * @param mysql_data_dir Path to mysql data dir
+   * @return True if initialization was successful otherwise false
+   */
+  auto set_adapter_config(const std::string& mysql_data_dir) -> bool override {
+    // get max-waiting-time
+    const int max_waiting_time = 300;
+    BOOST_LOG_TRIVIAL(debug) << "set_adapter_config, max_waiting_time = "
+                             << max_waiting_time;
+    config_.put("Adapter-Ethereum.max_waiting_time", max_waiting_time);
+
+    // get script-path
+    std::string script_path = "";
+    // add path to mysql data dir
+    script_path.append(mysql_data_dir);
+    //TODO update logic, better way to get path to mysql dir 
+    // cut tail
+    const std::string tail_to_cut = "build-debug/data/";
+    boost::replace_all(script_path, tail_to_cut, "");
+    // add relative path to script
+    script_path.append("storage/blockchainDB/adapter/ethereum/scripts");
+    BOOST_LOG_TRIVIAL(debug) << "set_adapter_config, script_path = "
+                             << script_path;
+    config_.put("Adapter-Ethereum.script_path", script_path);
+
+    // get contract-path
+    std::string contract_path = "";
+    // add path to mysql data dir
+    contract_path.append(mysql_data_dir);
+    //TODO update logic, better way to get path to mysql dir 
+    // cut tail
+    boost::replace_all(contract_path, tail_to_cut, "");
+    // add relative path to contract
+    contract_path.append("storage/blockchainDB/adapter/ethereum/contract/truffle/build/contracts/SimpleStorage.json");
+    BOOST_LOG_TRIVIAL(debug) << "set_adapter_config, contract_path = "
+                             << contract_path;
+    config_.put("Adapter-Ethereum.contract_path", contract_path);
+
+    return true;
+  }
 
   /**
    * @brief Initialize network configuration by parsing connection string
@@ -86,7 +131,7 @@ class EthereumConfig : public AdapterConfig {
    * @return std::string
    */
   auto contract_path() -> std::string {
-    return config_.get<std::string>("Adapter-Ethereum.contract-path");
+    return config_.get<std::string>("Adapter-Ethereum.ccontract_path");
   }
 
   /**
@@ -96,7 +141,7 @@ class EthereumConfig : public AdapterConfig {
    * @return int
    */
   auto max_waiting_time() -> int {
-    return config_.get<int>("Adapter-Ethereum.max-waiting-time");
+    return config_.get<int>("Adapter-Ethereum.max_waiting_time");
   }
 
   /**
@@ -105,7 +150,7 @@ class EthereumConfig : public AdapterConfig {
    * @return std::string
    */
   auto script_path() -> std::string {
-    return config_.get<std::string>("Adapter-Ethereum.script-path");
+    return config_.get<std::string>("Adapter-Ethereum.script_path");
   }
 };
 #endif  // CONFIG_ETHEREUM_H

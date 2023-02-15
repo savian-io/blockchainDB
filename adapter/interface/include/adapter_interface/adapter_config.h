@@ -33,6 +33,14 @@ class AdapterConfig {
    * @return True if successfull otherwise false
    */
   virtual auto set_network_config(const std::string &config) -> bool = 0;
+
+  /**
+   * @brief Set adapter configuration
+   *
+   * @param mysql_data_dir Path to mysql data dir
+   * @return True if successfull otherwise false
+   */
+  virtual auto set_adapter_config(const std::string& mysql_data_dir) -> bool = 0;
 };
 
 #endif  // ADAPTER_CONFIG_H

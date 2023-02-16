@@ -56,7 +56,7 @@ auto EthereumAdapter::init(const std::string &mysql_data_dir,
   }
   // init adapter with config_path
   //config_.init_path(config_path);
-  auto set_adapter_config(const std::string& mysql_data_dir);
+  config_.set_adapter_config(mysql_data_dir);
 
   // verify connection string
   if (!verify_connection_string(connection_string)) {
@@ -342,6 +342,18 @@ auto EthereumAdapter::create_table(const std::string &name,
   if (name == tableName_) {
     return 1;
   }
+
+  BOOST_LOG_TRIVIAL(debug)
+    << "Ethereum Adapter: Create_Table";
+
+  BOOST_LOG_TRIVIAL(debug)
+    << "Ethereum Adapter: Create_Table, script_path = " << config_.script_path();
+  BOOST_LOG_TRIVIAL(debug)
+    << "Ethereum Adapter: Create_Table, accountAddress_ = " << accountAddress_;
+  BOOST_LOG_TRIVIAL(debug)
+    << "Ethereum Adapter: Create_Table, contract_path = " << config_.contract_path();
+  BOOST_LOG_TRIVIAL(debug)
+    << "Ethereum Adapter: Create_Table, connection_url = " << config_.connection_url();
 
   // Deploy Contract
   std::string cmd = "node " + config_.script_path() +

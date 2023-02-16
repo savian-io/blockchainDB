@@ -24,7 +24,7 @@ class EthereumConfig : public AdapterConfig {
    */
   auto init_path(const std::string& path) -> bool { return read(path); }
 
-    /**
+   /**
    * @brief Initialize adapter configuration
    *
    * @param mysql_data_dir Path to mysql data dir
@@ -131,7 +131,7 @@ class EthereumConfig : public AdapterConfig {
    * @return std::string
    */
   auto contract_path() -> std::string {
-    return config_.get<std::string>("Adapter-Ethereum.ccontract_path");
+    return config_.get<std::string>("Adapter-Ethereum.contract_path");
   }
 
   /**

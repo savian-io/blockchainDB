@@ -11,10 +11,6 @@ The current code base is build on top of Oracle MySQL and introduces a special s
 │   │   ├── adapter     # C++ implementation of the adapter interface for ethereum
 │   │   ├── contract    # Assets for the deployment of the required blockchain contracts
 │   |   └── scripts     # Scripts to orchestrate the contract assets and prepare the blockchain for an interaction with the blockchain
-│   ├── fabric          # Assets to implement the Fabric adapter
-│   │   ├── adapter     # C++ implementation of the adapter interface for fabric
-│   │   ├── contract    # Assets for the deployment of the required blockchain contracts
-│   |   └── scripts     # Scripts to orchestrate the contract assets and prepare the blockchain for an interaction with the blockchain
 │   ├── factory         # C++ Factory module that helps to create the different types of adapters
 │   ├── interface       # C++ Definition of the generic adapter interface, contains also generic tests that should work for all
 │   └── utils           # Contains utility and helper methods
@@ -83,6 +79,32 @@ If you want to build the shared library from source you have include our storage
         cd ..
         cmake -S . -B build ...
         cmake --build build --parallel
+
+## Example of usage
+
+1. Initializing the Data Directory for mysql-server. More details can be found [here](https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.htmln).
+
+        mysql-server/build/bin/mysqld --initialize-insecure --user=mysql
+
+2. Start mysql-server
+
+        bin/mysqld --user=mysql
+
+3. Start mysql-client, turn on debug mode, create database, create blockchain tabel, insert and select data
+
+        bin/mysql -u root
+        set debug ='d,blockchain';
+        
+        CREATE DATABASE demo_db;
+        show databases;
+        use demo_db;
+
+        CREATE TABLE bc_tbl_ETH (id int, value int) ENGINE=BLOCKCHAIN CONNECTION='{"bc_type":"ETHEREUM","join-ip":"172.17.0.1","rpc-port":"8000"}';
+
+        SELECT * FROM bc_tbl_ETH;
+        SET SESSION binlog_format = 'STATEMENT';
+        INSERT INTO bc_tbl_ETH VALUES(1,1);
+        SELECT * FROM bc_tbl_ETH;
 
 ## Contribution guidelines
 * Please write clean and self explanatory code. Document your code where required.

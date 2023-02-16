@@ -41,11 +41,6 @@ class EthereumConfig : public AdapterConfig {
     std::string script_path = "";
     // add path to mysql data dir
     script_path.append(mysql_data_dir);
-    //TODO update logic, better way to get path to mysql dir 
-    // cut tail
-    //const std::string tail_to_cut = "build/data/";
-    //const std::string tail_to_cut = "build-debug/data/";
-    //boost::replace_all(script_path, tail_to_cut, "");
     // add relative path to script
     script_path.append("../../storage/blockchainDB/adapter/ethereum/scripts");
     BOOST_LOG_TRIVIAL(debug) << "set_adapter_config, script_path = "
@@ -56,9 +51,6 @@ class EthereumConfig : public AdapterConfig {
     std::string contract_path = "";
     // add path to mysql data dir
     contract_path.append(mysql_data_dir);
-    //TODO update logic, better way to get path to mysql dir 
-    // cut tail
-    //boost::replace_all(contract_path, tail_to_cut, "");
     // add relative path to contract
     contract_path.append("../../storage/blockchainDB/adapter/ethereum/contract/truffle/build/contracts/SimpleStorage.json");
     BOOST_LOG_TRIVIAL(debug) << "set_adapter_config, contract_path = "

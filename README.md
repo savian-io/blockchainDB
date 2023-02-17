@@ -70,14 +70,10 @@ If you want to build the shared library from source you have include our storage
         cd storage
         git clone https://github.com/savian-io/blockchainDB
 
-5. Install dependencies for building blockchainDB storage engine
-
-        sudo apt-get ...
-
-6. Back to the root directory of mysql-server and build it again
+5. Back to the root directory of mysql-server and build it again
 
         cd ..
-        cmake -S . -B build ...
+        cmake -S . -B build -GNinja -DDOWNLOAD_BOOST=1 -DWITH_BOOST=$HOME/my_boost -DCMAKE_CXX_STANDARD_LIBRARIES="-lcurl"
         cmake --build build --parallel
 
 ## Example of usage
@@ -99,6 +95,7 @@ If you want to build the shared library from source you have include our storage
         show databases;
         use demo_db;
 
+        INSTALL PLUGIN blockchainDB SONAME 'blockchain_db.so';
         CREATE TABLE bc_tbl_ETH (id int, value int) ENGINE=BLOCKCHAIN CONNECTION='{"bc_type":"ETHEREUM","join-ip":"172.17.0.1","rpc-port":"8000"}';
 
         SELECT * FROM bc_tbl_ETH;
